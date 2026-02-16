@@ -70,7 +70,7 @@
         
         <p>亲爱的老婆，新年快乐！</p >
         <p>人们常说“人生若只如初见”，我时常思索，究竟是怎样的缘分能让我们产生交集？后来我想，答案是真诚。过去这一年，你的真诚支持与肯定，如同一束温暖的光，给予我力量。</p >
-        <p>你从一开始找我约稿，这份信任于我而言，就像一座跨越艰难险阻的桥梁。宝宝的这份热忱就像暖阳，轻柔又温暖。</p >
+        <p>从最初找我约稿时，这份信任于我而言，就像一座跨越艰难险阻的桥梁。宝宝的这份热忱就像暖阳，轻柔又温暖。</p >
         <p>虽然我陆陆续续认识了一些新朋友，但你在我心中始终有着不可替代的位置。</p >
         <p>新的一年，愿你的生活如诗如画，所行之路皆为坦途，所遇之人皆为良善。</p >
         <p>何其有幸遇见你。</p >
@@ -81,18 +81,34 @@
         </div>
 
         <!-- 网易云音乐播放器 Time Machine -->
-        <div class="music-player-container">
-            <iframe 
-                border="0" 
-                marginwidth="0" 
-                marginheight="0" 
-                width="330" 
-                height="86" 
-                src="//music.163.com/outchain/player?type=2&id=2686657278&auto=1&height=66"
-                frameborder="0"
-                allowfullscreen
-            ></iframe>
-        </div>
+      <分区 级别="音乐播放器容器">
+  <iframe
+    id="musicPlayer"
+    边界="0"
+    边距宽度="0"
+    边距高度="0"
+    宽度="330"
+    高度="86"
+    SRC="https://music.163.com/outchain/player?type=2&id=2686657278&auto=1&muted=1&height=66"
+    帧边框="0"
+    允许全屏
+  ></iframe>
+</分区>
+
+<script>
+  // 页面加载后，取消静音并自动播放
+  window.addEventListener('load', function() {
+    const player = document.getElementById('musicPlayer');
+    // 向iframe发送取消静音和播放的指令
+    player.contentWindow.postMessage({
+      method: 'setVolume',
+      params: [100] // 设置音量为100%
+    }, '*');
+    player.contentWindow.postMessage({
+      method: 'play'
+    }, '*');
+  });
+</script> 
     </div>
 
     <script>
