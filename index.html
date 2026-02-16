@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给思不群的一封信</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: "楷体", "微软雅黑", sans-serif;
+            background: #0a0a1a; 
+            color: #fff;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        /* 星星特效画布 */
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none; /* 点击穿透，不影响按钮 */
+        }
+        /* 信件容器 */
+        .letter-container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            line-height: 2;
+            font-size: 18px;
+        }
+        /* 标题样式 */
+        .letter-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #d4af37;
+            font-weight: bold;
+        }
+        /* 落款样式 */
+        .letter-signature {
+            text-align: right;
+            margin-top: 40px;
+            color: #666;
+        }
+        /* 网易云播放器容器 */
+        .music-player-container {
+            text-align: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星星特效画布 -->
+    <canvas id="stars"></canvas>
+
+    <!-- 信件内容 -->
+    <div class="letter-container">
+        <div class="letter-title">致思不群的一封信</div>
+        
+        <!-- 【核心文案区】- 已植入 -->
+        <p>亲爱的思不群，新年快乐！</p >
+        <p>人们常说“人生若只如初见”，我时常思索，到底是怎样的羁绊，能让两个原本陌生的人产生交集。我想，大概是真诚吧，过去这一年，你的真诚支持与肯定，如同一束温暖的光，给予我力量。</p >
+        <p>你的温柔便如同春日里的微风，老婆平时的朋友圈，几乎如诗如画，闲适惬意。我想，你是一个特别温柔的人，钟情于风景，享受岁月静好，对生活满是热爱和人。还记得你算第一批找我约稿的人，从一开始就以绝对的信任赋予我前行的力量。“信任是友谊的桥梁”，你的信任于我而言，就是那座跨越艰难险阻的桥梁。你还热情地把我推荐给身边的朋友，你的这份热心就像暖阳，轻柔又温暖。每次画你的稿子时，我都怀揣着“如切如磋，如琢如磨”的态度，力求将每一个细节都雕琢完美。</p >
+        <p>这半年来，随着创作数量的增加、见识的增长，我愈发意识到自身的不足。“学然后知不足”，回头看以往的作品，就像在审视自己成长的足迹，虽有许多青涩与不足，但每一幅都倾注了我当时的全部心血。不过，我仍然会不断地攀登、向前。</p >
+        <p>特别感谢你那么多次还愿意信任我，继续找我。老婆总是很细心，节假日会给我祝福。平时我在朋友圈碎碎念，你也总会关切询问，让我感受到被人记挂着。发作品时，你也会点赞评论，让我有了坚持下去的劲头。</p >
+        <p>虽然我陆陆续续认识了一些新朋友，但你在我心中始终有着不可替代的位置。</p >
+        <p>新的一年，愿你的生活如诗如画，所行之路皆为坦途，所遇之人皆为良善。</p >
+        <p>何其有幸，与你相遇。</p >
+        <!-- 【核心文案区】- 结束 -->
+        
+        <div class="letter-signature">
+            你的 佳减乘除<br>
+            2026年除夕
+        </div>
+
+        <!-- 网易云音乐播放器 -->
+        <div class="music-player-container">
+            <iframe 
+                border="0" 
+                marginwidth="0" 
+                marginheight="0" 
+                width="330" 
+                height="86" 
+                src="//music.163.com/outchain/player?type=2&id=1849559931&auto=1&height=66"
+                frameborder="0"
+                allowfullscreen
+            ></iframe>
+        </div>
+    </div>
+
+    <script>
+        // 星星飘落特效（基于Canvas）
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 生成随机数工具
+        function random(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // 星星类
+        class Star {
+            constructor() {
+                this.x = random(0, canvas.width);
+                this.y = random(-canvas.height, 0);
+                this.size = random(2, 5);
+                this.speedY = random(1, 3); // 下落速度
+                this.speedX = random(-0.5, 0.5); // 左右摇摆
+                this.opacity = random(0.5, 1);
+                this.color = ['#fff', '#ffd700', '#add8e6'][Math.floor(random(0, 3))]; // 白/金/浅蓝
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX * Math.sin(this.y * 0.01); // 摆动轨迹
+                // 星星落到底部后重置到顶部
+                if (this.y > canvas.height) {
+                    this.y = random(-50, 0);
+                    this.x = random(0, canvas.width);
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.size, this.size); // 点状星星
+                ctx.restore();
+            }
+        }
+
+        // 创建星星数组
+        const stars = [];
+        const starCount = Math.min(150, Math.floor(canvas.width * 0.15)); // 增加数量更浪漫
+        for (let i = 0; i < starCount; i++) {
+            stars.push(new Star());
+        }
+
+        // 动画循环
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        // 窗口大小改变时重置画布
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // 启动动画
+        animate();
+    </script>
+</body>
+</html>
