@@ -81,18 +81,39 @@
         </div>
 
         <!-- 网易云音乐播放器 Time Machine -->
-      <分区 级别="音乐播放器容器">
+  <!-- 网易云音乐播放器 Time Machine -->
+<div class="music-player-container" style="position: absolute; opacity: 0; pointer-events: none;">
   <iframe
     id="musicPlayer"
-    边界="0"
-    边距宽度="0"
-    边距高度="0"
-    宽度="330"
-    高度="86"
-    SRC="https://music.163.com/outchain/player?type=2&id=2686657278&auto=1&muted=1&height=66"
-    帧边框="0"
-    允许全屏
+    border="0"
+    marginwidth="0"
+    marginheight="0"
+    width="330"
+    height="86"
+    src="//music.163.com/outchain/player?type=2&id=2686657278&auto=1&muted=1&height=66"
+    frameborder="0"
+    allowfullscreen
   ></iframe>
+</div>
+
+<script>
+  // 页面加载后，等待用户点击屏幕再播放，绕过手机限制
+  let musicStarted = false;
+  function startMusic() {
+    if (musicStarted) return;
+    const player = document.getElementById('musicPlayer');
+    if (player) {
+      player.contentWindow.postMessage({ method: 'setVolume', params: [100] }, '*');
+      player.contentWindow.postMessage({ method: 'play' }, '*');
+      musicStarted = true;
+      document.removeEventListener('click', startMusic);
+      document.removeEventListener('touchstart', startMusic);
+    }
+  }
+  // 监听用户点击或触摸屏幕
+  document.addEventListener('click', startMusic);
+  document.addEventListener('touchstart', startMusic);
+</script>   
 </分区>
 
 <script>
